@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "attendance-management-system"
+version = "0.1.0"
+description = "An API for managing attendandance data with multiple data producers"
+authors = ["Vyom Jain <vyom.j@protonmail.com>"]
+readme = "README.md"
+packages = [{include = "attendance_management_system"}]
+repository="https://github.com/Vyvy-vi/attendance-management-system/"
+license="GPL-3.0-or-later"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^0.21.0"
+fastapi = "^0.86.0"
+uvicorn = "^0.19.0"
+pydantic = {extras = ["email"], version = "^1.10.2"}
+motor = "^3.1.1"
+toml = "^0.10.2"
+
+[tool.poetry.group.dev.dependencies]
+black = {version = "^22.10.0", allow-prereleases = true}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
