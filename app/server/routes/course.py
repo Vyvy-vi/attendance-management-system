@@ -18,6 +18,12 @@ from ..models.Course import (
 router = APIRouter()
 
 
+@router.get("/")
+async def get_courses_data():
+    courses = await retrieve_courses()
+    return courses
+
+
 @router.post("/", response_description="course data added into the database")
 async def add_course_data(course: CourseSchema = Body(...)):
     course = jsonable_encoder(course)
@@ -25,7 +31,13 @@ async def add_course_data(course: CourseSchema = Body(...)):
     return ResponseModel(new_course, "course added successfully.")
 
 
-@router.put("/{id}")
+@router.get("/{course_code}")
+async def get_course_data(course_code: str):
+    course = await retrieve_course(course_code)
+    return course
+
+
+@router.put("/{course_code}")
 async def update_course_data(id: str, req: UpdateCourseModel = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_course = await update_course(id, req)
@@ -41,7 +53,7 @@ async def update_course_data(id: str, req: UpdateCourseModel = Body(...)):
     )
 
 
-@router.delete("/{id}", response_description="course data deleted from the database")
+@router.delete("/{course_code}", response_description="course data deleted from the database")
 async def delete_course_data(id: str):
     deleted_course = await delete_course(id)
     if deleted_course:

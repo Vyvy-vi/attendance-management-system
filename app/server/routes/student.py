@@ -15,7 +15,15 @@ from ..models.Student import (
     UpdateStudentModel,
 )
 
+from typing import Union
+
 router = APIRouter()
+
+
+@router.get("/")
+async def get_students_data():
+    data = await retrieve_students()
+    return data
 
 
 @router.post("/", response_description="Student data added into the database")
@@ -25,10 +33,16 @@ async def add_student_data(student: StudentSchema = Body(...)):
     return ResponseModel(new_student, "Student added successfully.")
 
 
-@router.put("/{id}")
-async def update_student_data(id: str, req: UpdateStudentModel = Body(...)):
+@router.get("/{registration_no}")
+async def get_student_data(registration_no: str):
+    data = await retrieve_student(registration_no)
+    return data
+
+
+@router.put("/{registration_no}")
+async def update_student_data(registation_no: str, req: UpdateStudentModel = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
-    updated_student = await update_student(id, req)
+    updated_student = await update_student(registation_no, req)
     if updated_student:
         return ResponseModel(
             "Student with ID: {} name update is successful".format(id),
@@ -41,9 +55,9 @@ async def update_student_data(id: str, req: UpdateStudentModel = Body(...)):
     )
 
 
-@router.delete("/{id}", response_description="Student data deleted from the database")
-async def delete_student_data(id: str):
-    deleted_student = await delete_student(id)
+@router.delete("/{registration_no}", response_description="Student data deleted from the database")
+async def delete_student_data(registration_no: str):
+    deleted_student = await delete_student(registration_no)
     if deleted_student:
         return ResponseModel(
             "Student with ID: {} removed".format(id), "Student deleted successfully"

@@ -29,21 +29,21 @@ async def add_course(course_data: dict) -> dict:
 
 
 # Retrieve a course with a matching ID
-async def retrieve_course(id: str) -> dict:
-    course = await db.course_collection.find_one({"_id": ObjectId(id)})
+async def retrieve_course(course_code: str) -> dict:
+    course = await db.course_collection.find_one({"course_code": course_code})
     if course:
         return course_helper(course)
 
 
 # Update a course with a matching ID
-async def update_course(id: str, data: dict):
+async def update_course(course_code: str, data: dict):
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
-    course = await db.course_collection.find_one({"_id": ObjectId(id)})
+    course = await db.course_collection.find_one({"course_code": course_code})
     if course:
         updated_course = await db.course_collection.update_one(
-            {"_id": ObjectId(id)}, {"$set": data}
+            {"course_code": course_code}, {"$set": data}
         )
         if updated_course:
             return True
@@ -51,8 +51,8 @@ async def update_course(id: str, data: dict):
 
 
 # Delete a course from the database
-async def delete_course(id: str):
-    course = await db.course_collection.find_one({"_id": ObjectId(id)})
+async def delete_course(course_code: str):
+    course = await db.course_collection.find_one({"course_code": course_code})
     if course:
-        await db.course_collection.delete_one({"_id": ObjectId(id)})
+        await db.course_collection.delete_one({"course_code": course_code})
         return True

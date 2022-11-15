@@ -17,7 +17,7 @@ def student_helper(student) -> dict:
 # Retrieve all students present in the database
 async def retrieve_students():
     students = []
-    async for student in db.student_collection.find():
+    async for student in db.student_collection.find({}):
         students.append(student_helper(student))
     return students
 
@@ -29,22 +29,22 @@ async def add_student(student_data: dict) -> dict:
     return student_helper(new_student)
 
 
-# Retrieve a student with a matching ID
-async def retrieve_student(id: str) -> dict:
-    student = await db.student_collection.find_one({"_id": ObjectId(id)})
+# Retrieve a student with a matching reg_no
+async def retrieve_student(reg_no: str) -> dict:
+    student = await db.student_collection.find_one({"registration_no": reg_no})
     if student:
         return student_helper(student)
 
 
 # Update a student with a matching ID
-async def update_student(id: str, data: dict):
+async def update_student(reg_no: str, data: dict):
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
-    student = await db.student_collection.find_one({"_id": ObjectId(id)})
+    student = await db.student_collection.find_one({"registration_no": reg_no})
     if student:
         updated_student = await db.student_collection.update_one(
-            {"_id": ObjectId(id)}, {"$set": data}
+            {"registration_no": reg_no}, {"$set": data}
         )
         if updated_student:
             return True
@@ -52,8 +52,8 @@ async def update_student(id: str, data: dict):
 
 
 # Delete a student from the database
-async def delete_student(id: str):
-    student = await db.student_collection.find_one({"_id": ObjectId(id)})
+async def delete_student(reg_no: str):
+    student = await db.student_collection.find_one({"registration_no": reg_no})
     if student:
-        await db.student_collection.delete_one({"_id": ObjectId(id)})
+        await db.student_collection.delete_one({"registration_no": reg_no})
         return True
