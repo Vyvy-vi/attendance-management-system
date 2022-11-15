@@ -22,6 +22,11 @@ async def app(request: Request):
     return templates.TemplateResponse("app.html", {"request": request})
 
 
+@router.get("/contact", include_in_schema=False)
+async def contact(request: Request):
+    return templates.TemplateResponse("contact.html", {"request": request})
+
+
 @router.get("/api-docs", include_in_schema=False)
 async def docs(request: Request):
     return RedirectResponse(url="/docs")

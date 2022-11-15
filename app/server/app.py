@@ -5,7 +5,7 @@ from .routes.student import router as StudentRouter
 from .routes.course import router as CourseRouter
 from .routes.lecture import router as LectureRouter
 from .routes.attendance import router as AttendanceRouter
-from .routes.main import router as WebsiteRouter
+from .routes.index import router as WebsiteRouter
 from .db.db import db
 from .dependencies import get_meta
 
