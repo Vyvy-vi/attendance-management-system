@@ -8,16 +8,16 @@
         <div class="h-96 rounded-lg border-4 border-dashed border-gray-200">
             <div class="overflow-hidden bg-white shadow sm:rounded-lg">
                 <div class="px-4 py-5 sm:px-6">
-                  <h3 class="text-lg font-medium leading-6 text-gray-900">Courses</h3>
-                  <p class="mt-1 max-w-2xl text-sm text-gray-500">Courses taught by {{courses[0]['course_teacher']}}</p>
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">{{course['course_code']}}: {{course['course_name']}}</h3>
+                  <p class="mt-1 max-w-2xl text-sm text-gray-500">Lectures taught by {{course['course_teacher']}}</p>
                 </div>
                 <div class="border-t border-gray-200">
                   <dl>
-                    {% for i in courses %}
+                    {% for i in lectures %}
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-sm font-medium text-gray-500">{{ i['course_code'] }}: {{ i['course_name'] }}</dt>
+                        <dt class="text-sm font-medium text-gray-500">{{ i["lecture_start_time"] }} {{ i["lecture_type"] }}</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                            <a href="{{url_for('app_course', course_code=i['course_code'])}}">
+                            <a href="{{url_for('app_course_attendance', course_code=course['course_code'], lecture_id=i['id'])}}">
                             <button class="border rounded-full bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 px-4 py-1 text-white font-semibold">Mark Attendance</button>
                             </a>
                         </dd>

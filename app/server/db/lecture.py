@@ -6,6 +6,7 @@ def lecture_helper(lecture) -> dict:
     return {
         "id": str(lecture["_id"]),
         "lecture_type": str(lecture["lecture_type"]),
+        "course_code": str(lecture["course_code"]),
         "lecture_room": str(lecture["lecture_room"]),
         "lecture_start_time": lecture["lecture_start_time"],
         "lecture_end_time": lecture["lecture_end_time"],
